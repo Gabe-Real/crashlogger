@@ -6,6 +6,7 @@ package crashlogger
 import dev.kord.common.entity.Snowflake
 import dev.kordex.core.ExtensibleBot
 import dev.kordex.core.utils.env
+import dev.kordex.modules.pluralkit.extPluralKit
 import crashlogger.extensions.TestExtension
 import java.io.File
 
@@ -33,8 +34,12 @@ suspend fun main() {
 			}
 		}
 
+
 		extensions {
 			add(::TestExtension)
+
+
+			extPluralKit()
 		}
 
 		if (devMode) {

@@ -2,6 +2,7 @@ import dev.kordex.gradle.plugins.docker.file.*
 import dev.kordex.gradle.plugins.kordex.DataCollection
 
 plugins {
+
 	distribution
 
 	alias(libs.plugins.kotlin.jvm)
@@ -23,12 +24,23 @@ dependencies {
 	implementation(libs.kotlin.stdlib)
 	implementation(libs.kx.ser)
 
+	implementation(libs.ktor.client.encoding)
+	implementation(libs.ktor.client.cio)
+
 	// Logging dependencies
+	implementation(libs.autolink)
+	implementation(libs.flexver)
 	implementation(libs.groovy)
 	implementation(libs.jansi)
+	implementation(libs.jsoup)
+	implementation(libs.kaml)
 	implementation(libs.logback)
 	implementation(libs.logback.groovy)
 	implementation(libs.logging)
+	implementation(libs.semver)
+
+	implementation(platform(libs.kotlin.bom))
+	implementation(libs.kotlin.stdlib)
 }
 
 // Configure distributions plugin
@@ -47,6 +59,10 @@ distributions {
 }
 
 kordEx {
+
+	module("pluralkit")
+
+
 	// https://github.com/gradle/gradle/issues/31383
 	kordExVersion = libs.versions.kordex.asProvider()
 

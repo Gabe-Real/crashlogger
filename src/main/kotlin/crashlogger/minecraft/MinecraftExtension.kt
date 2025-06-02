@@ -30,6 +30,7 @@ import dev.kordex.core.i18n.toKey
 import dev.kordex.core.pagination.pages.Page
 import dev.kordex.core.utils.scheduling.Scheduler
 import dev.kordex.core.utils.scheduling.Task
+import groovyjarjarantlr4.v4.misc.EscapeSequenceParsing
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -63,6 +64,7 @@ class MinecraftExtension : Extension() {
 
 	private val logger = KotlinLogging.logger { }
 
+
 	private val client = HttpClient {
 		install(ContentNegotiation) {
 			json()
@@ -83,7 +85,7 @@ class MinecraftExtension : Extension() {
 
 		checkTask = scheduler.schedule(CHECK_DELAY, callback = ::checkTask)
 
-		for (guildId in getGuilds()) {
+		for (guildId in TEST_SERVER_ID ) {
 			ephemeralSlashCommand {
 				name = "mc".toKey()
 				description = "Commands related to Minecraft updates".toKey()
