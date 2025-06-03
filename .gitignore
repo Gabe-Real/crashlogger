@@ -112,3 +112,5 @@ build/
 
 # Env vars - don't commit this!
 .env
+/config/
+/data/
