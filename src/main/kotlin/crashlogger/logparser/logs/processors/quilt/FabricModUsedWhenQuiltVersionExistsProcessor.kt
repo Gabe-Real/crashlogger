@@ -6,6 +6,7 @@
 
 package crashlogger.logparser.logs.processors.quilt
 
+import crashlogger.logparser.logs.Version
 import crashlogger.logparser.logs.data.LoaderType
 import crashlogger.logparser.logs.data.Log
 import crashlogger.logparser.logs.data.Order

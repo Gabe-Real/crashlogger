@@ -11,7 +11,7 @@ import dev.kord.core.entity.Message
 import dev.kordex.core.extensions.event
 import dev.kordex.modules.pluralkit.events.PKMessageCreateEvent
 
-public class PKEventHandler(private val extension: LogParserExtension, val message: Message) : EventHandler {
+public class PKEventHandler(private val extension: LogParserExtension) : EventHandler {
 	override suspend fun setup(): Unit = with(extension) {
 		event<PKMessageCreateEvent> {
 			action {

@@ -8,6 +8,9 @@ import dev.kordex.core.ExtensibleBot
 import dev.kordex.core.utils.env
 import dev.kordex.modules.pluralkit.extPluralKit
 import crashlogger.extensions.TestExtension
+import crashlogger.logparser.logs.LogParserExtension
+import dev.kord.gateway.Intent
+import dev.kord.gateway.PrivilegedIntent
 import java.io.File
 
 val TEST_SERVER_ID = Snowflake(
@@ -15,7 +18,7 @@ val TEST_SERVER_ID = Snowflake(
 )
 
 private val TOKEN = env("TOKEN")
-// Get the bot' token from the env vars or a .env file
+// Get the bot token from the env vars or a .env file
 
 suspend fun main() {
 	val bot = ExtensibleBot(TOKEN) {
@@ -37,9 +40,16 @@ suspend fun main() {
 
 		extensions {
 			add(::TestExtension)
+			add(::LogParserExtension)
 
 
 			extPluralKit()
+		}
+
+		@OptIn(PrivilegedIntent::class)
+		intents {
+			+Intent.GuildMembers
+			+Intent.MessageContent
 		}
 
 		if (devMode) {

@@ -7,13 +7,13 @@
 package crashlogger.logparser.logs
 
 import com.unascribed.flexver.FlexVerComparator
+import crashlogger.logparser.logs.config.LogParserConfig
+import crashlogger.logparser.logs.config.SimpleLogParserConfig
 import dev.kordex.core.builders.ExtensionsBuilder
 import dev.kordex.core.utils.loadModule
 import org.koin.dsl.bind
 import org.nibor.autolink.LinkExtractor
 import org.nibor.autolink.LinkType
-import org.quiltmc.community.cozy.modules.logs.config.LogParserConfig
-import org.quiltmc.community.cozy.modules.logs.config.SimpleLogParserConfig
 import java.net.URI
 import java.net.URL
 

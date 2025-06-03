@@ -9,6 +9,7 @@
 package crashlogger.logparser.logs
 
 import com.charleskorn.kaml.Yaml
+import crashlogger.logparser.logs.config.LogParserConfig
 import crashlogger.logparser.logs.data.Log
 import crashlogger.logparser.logs.data.PastebinConfig
 import crashlogger.logparser.logs.events.DefaultEventHandler
@@ -27,7 +28,6 @@ import dev.kordex.core.utils.capitalizeWords
 import dev.kordex.core.utils.envOrNull
 import dev.kordex.core.utils.respond
 import dev.kordex.core.utils.scheduling.Scheduler
-import dev.kordex.modules.pluralkit.api.PluralKit
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.*
@@ -36,7 +36,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.serialization.decodeFromString
 import org.koin.core.component.inject
-import org.quiltmc.community.cozy.modules.logs.config.LogParserConfig
+
 
 import java.net.URI
 import java.net.URL

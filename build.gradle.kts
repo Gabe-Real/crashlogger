@@ -26,6 +26,7 @@ dependencies {
 
 	implementation(libs.ktor.client.encoding)
 	implementation(libs.ktor.client.cio)
+	implementation(libs.bundles.ktor.client)
 
 	// Logging dependencies
 	implementation(libs.autolink)
@@ -61,10 +62,12 @@ distributions {
 kordEx {
 
 	module("pluralkit")
+	module("dev-unsafe")
 
 
 	// https://github.com/gradle/gradle/issues/31383
-	kordExVersion = libs.versions.kordex.asProvider()
+	// kordExVersion = libs.versions.kordex.asProvider()
+	version = "2.3.2-SNAPSHOT"
 
 	bot {
 		// See https://docs.kordex.dev/data-collection.html

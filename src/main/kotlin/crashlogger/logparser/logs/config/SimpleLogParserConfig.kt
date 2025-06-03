@@ -4,9 +4,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package org.quiltmc.community.cozy.modules.logs.config
+package crashlogger.logparser.logs.config
 
 import crashlogger.logparser.logs.parsers.MinecraftVersionParser
+import crashlogger.logparser.logs.parsers.fabric.FabricModsParser
 import crashlogger.logparser.logs.processors.*
 import crashlogger.logparser.logs.processors.quilt.*
 import crashlogger.logparser.logs.retrievers.AttachmentLogRetriever
@@ -18,8 +19,6 @@ import dev.kordex.core.checks.types.Check
 import org.quiltmc.community.cozy.modules.logs.parsers.EnvironmentParser
 import org.quiltmc.community.cozy.modules.logs.parsers.LauncherParser
 import org.quiltmc.community.cozy.modules.logs.parsers.LoaderParser
-
-import org.quiltmc.community.cozy.modules.logs.parsers.fabric.FabricModsParser
 import org.quiltmc.community.cozy.modules.logs.parsers.launchers.ATLauncherParser
 import org.quiltmc.community.cozy.modules.logs.parsers.launchers.MMCLikeParser
 import org.quiltmc.community.cozy.modules.logs.parsers.launchers.TechnicParser
@@ -37,7 +36,7 @@ public class SimpleLogParserConfig(private val builder: Builder) : LogParserConf
 	override suspend fun getGlobalPredicates(): List<Predicate> = builder.globalPredicates
 
 	public class Builder {
-		public var parsers: MutableList<Any> = mutableListOf(
+		public var parsers: MutableList<LogParser> = mutableListOf(
 			ATLauncherParser(),
 			EnvironmentParser(),
 			FabricModsParser(),

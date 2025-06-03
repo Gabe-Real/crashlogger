@@ -18,7 +18,7 @@ class TestExtension : Extension() {
 	override val name = "test"
 
 	override suspend fun setup() {
-		chatCommand(::SlapArgs) {
+		/* chatCommand(::SlapArgs) {
 			name = Translations.Commands.Slap.name
 			description = Translations.Commands.Slap.description
 
@@ -145,6 +145,6 @@ class TestExtension : Extension() {
 
 			defaultValue = "🐟"
 			description = Translations.Arguments.Weapon.description
-		}
+		} */
 	}
 }
