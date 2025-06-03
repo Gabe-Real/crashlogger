@@ -13,7 +13,7 @@ import dev.kord.core.event.Event
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.*
-import io.ktor.utils.io.core.*
+import kotlinx.io.readByteArray
 import java.net.URL
 
 private val DOMAINS: Array<String> = arrayOf(
@@ -40,5 +40,5 @@ public class AttachmentLogRetriever : LogRetriever() {
 			)
 
 	override suspend fun process(url: URL): Set<String> =
-		setOf(client.get(url).bodyAsChannel().readRemaining().readBytes().decodeToString())
+		setOf(client.get(url).bodyAsChannel().readRemaining().readByteArray().decodeToString())
 }

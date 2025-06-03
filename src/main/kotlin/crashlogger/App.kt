@@ -3,14 +3,24 @@
  */
 package crashlogger
 
+import com.sun.jdi.InterfaceType
+import crashlogger.logparser.logs.config.DefaultLogParserConfig
 import dev.kord.common.entity.Snowflake
 import dev.kordex.core.ExtensibleBot
 import dev.kordex.core.utils.env
 import dev.kordex.modules.pluralkit.extPluralKit
 import crashlogger.extensions.TestExtension
 import crashlogger.logparser.logs.LogParserExtension
+import crashlogger.logparser.logs.config.LogParserConfig
+import crashlogger.logparser.logs.config.SimpleLogParserConfig
+import crashlogger.logparser.logs.extLogParser
+import crashlogger.logparser.logs.processors.PiracyProcessor
+import crashlogger.logparser.logs.processors.ProblematicLauncherProcessor
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import dev.kordex.core.checks.guildFor
+import dev.kordex.core.utils.loadModule
+import org.koin.dsl.bind
 import java.io.File
 
 val TEST_SERVER_ID = Snowflake(
@@ -44,12 +54,33 @@ suspend fun main() {
 
 
 			extPluralKit()
+
+			extLogParser {
+				// Bundled non-default processors
+				processor(PiracyProcessor())
+				processor(ProblematicLauncherProcessor())
+
+				globalPredicate { event ->
+					val guild = guildFor(event)
+
+					guild?.id != TEST_SERVER_ID
+				}
+			}
+		}
+
+		hooks {
+			beforeKoinSetup {
+				loadModule {
+					single<LogParserConfig> { DefaultLogParserConfig() }
+				}
+			}
 		}
 
 		@OptIn(PrivilegedIntent::class)
 		intents {
 			+Intent.GuildMembers
 			+Intent.MessageContent
+			+Intent.GuildMessages
 		}
 
 		if (devMode) {
