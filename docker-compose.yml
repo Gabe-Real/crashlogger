@@ -1,0 +1,21 @@
+services:
+  app:
+    image: ghcr.io/gabe-real/crashlogger:main
+    restart: always
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - CLIENT_ID=${CLIENT_ID}
+      - BOT_OWNER_ID=${BOT_OWNER_ID}
+      - JAVA_OPTS=${JAVA_OPTS:--Xmx512m}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.scope=crashlogger"
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 --cleanup --rolling-restart --scope crashlogger --label-enable
+    restart: always
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=60
