@@ -1,0 +1,59 @@
+raw:
+  - '0x0\.st/([^/?#]*)'
+  - 'bytebin\.lucko.me/([^/?#]*)'
+  - 'termbin\.com/([^/?#]*)'
+  - 'cdn\.discordapp\.com/attachments/\d+/\d+/[^\.]\.log'
+  - 'media\.discordapp\.com/attachments/\d+/\d+/[^\.]\.log'
+
+url-transform:
+  - match: 'mclo\.gs/([^/?#]*)'
+    output: 'https://api.mclo.gs/1/raw/$1'
+
+  - match: 'paste\.ee/[pd]/([^/?#]*)'
+    output: 'https://paste.ee/d/$1'
+
+  - match: 'pastes\.dev/([^/?#]*)'
+    output: 'https://api.pastes.dev/$1'
+
+  - match: 'hastebin\.com/([^/?#]*)'
+    output: 'https://hastebin.com/raw/$1'
+
+  - match: 'toptal\.com/developers/hastebin/([^/?#]*)'
+    output: 'https://www.toptal.com/developers/hastebin/raw/$1'
+
+  - match: 'hst\.sh/([^/?#]*)'
+    output: 'https://hst.sh/raw/$1'
+
+  - match: 'gist\.github\.com/([^/?#]*)/([^/?#]*)'
+    output: 'https://gist.githubusercontent.com/raw/$2'
+
+  - match: 'gist\.github\.com/([^/?#]*)'
+    output: 'https://gist.githubusercontent.com/raw/$1'
+
+  - match: 'gist\.githubusercontent\.com/([^/?#]*)/([^/?#]*)'
+    output: 'https://gist.githubusercontent.com/raw/$2'
+
+  - match: 'gist\.githubusercontent\.com/([^/?#]*)'
+    output: 'https://gist.githubusercontent.com/raw/$1'
+
+  - match: 'pastebin\.com/(raw|dl|clone|embed|print)/([^/?#]*)'
+    output: 'https://pastebin.com/dl/$2'
+
+  - match: 'pastebin\.com/([^/?#]*)'
+    output: 'https://pastebin.com/dl/$1'
+
+  - match: 'pastery\.net/([^/?#]*).*'
+    output: 'https://www.pastery.net/$1/raw/'
+
+    split:
+      group: 1
+      string: '+'
+
+scrape:
+  - match: 'paste\.atlauncher\.com/view/([^/?#]*)'
+    type: 'first-element'
+    selector: 'code'
+
+  - match: 'paste\.gg/p/([^/?#]*)/([^/?#]*)'
+    type: 'hrefs'
+    selector: '.box-title a'

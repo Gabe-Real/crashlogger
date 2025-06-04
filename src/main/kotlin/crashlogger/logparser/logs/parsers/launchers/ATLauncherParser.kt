@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package org.quiltmc.community.cozy.modules.logs.parsers.launchers
+package crashlogger.logparser.logs.parsers.launchers
 
 import crashlogger.logparser.logs.data.Launcher
 import crashlogger.logparser.logs.data.Log
