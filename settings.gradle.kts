@@ -9,3 +9,5 @@ pluginManagement {
 }
 
 rootProject.name = "crashlogger"
+
+include(":module-log-parser")

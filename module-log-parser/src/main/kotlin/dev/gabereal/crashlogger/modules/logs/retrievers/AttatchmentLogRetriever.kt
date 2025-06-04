@@ -1,23 +1,15 @@
-/*
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- */
+package dev.gabereal.crashlogger.modules.logs.retrievers
 
-package crashlogger.logparser.logs.retrievers
 
-import crashlogger.logparser.logs.data.Order
-import crashlogger.logparser.logs.endsWithExtensions
-import crashlogger.logparser.logs.types.LogRetriever
+import dev.gabereal.crashlogger.modules.logs.data.Order
+import dev.gabereal.crashlogger.modules.logs.types.LogRetriever
 import dev.kord.core.event.Event
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.*
 import kotlinx.io.readByteArray
-import java.net.URL
-import io.github.oshai.kotlinlogging.KotlinLogging
 
-private val logger = KotlinLogging.logger {}
+import java.net.URL
 
 private val DOMAINS: Array<String> = arrayOf(
 	"cdn.discord.com",
@@ -41,8 +33,6 @@ public class AttachmentLogRetriever : LogRetriever() {
 			url.path.endsWithExtensions(*EXTENSIONS) ||
 				'.' !in url.path.substringAfterLast('/')
 			)
-
-
 
 	override suspend fun process(url: URL): Set<String> =
 		setOf(client.get(url).bodyAsChannel().readRemaining().readByteArray().decodeToString())

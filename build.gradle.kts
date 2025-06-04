@@ -42,6 +42,7 @@ dependencies {
 
 	implementation(platform(libs.kotlin.bom))
 	implementation(libs.kotlin.stdlib)
+
 }
 
 // Configure distributions plugin
