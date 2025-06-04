@@ -28,14 +28,13 @@ a file named `.env` in the project root (next to files like the `build.gradle.kt
 settings. This file should contain `KEY=value` pairs, without a space around the `=` and without added quotes:
 
 ```dotenv
+# https://discord.com/developers
 TOKEN=AAA....
-TEST_SERVER=1234....
 
-ENVIRONMENT=dev
+# ID of the server to use for testing
+TEST_SERVER=1234...
 # You get the idea.
 ```
-
-
 
 # Conventions and Linting
 
