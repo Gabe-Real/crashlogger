@@ -6,13 +6,13 @@
 
 package crashlogger.logparser.logs.processors.quilt
 
+import crashlogger.logparser.logs.api.ModrinthClient
 import crashlogger.logparser.logs.data.LoaderType
 import crashlogger.logparser.logs.data.Log
 import crashlogger.logparser.logs.data.Order
 import crashlogger.logparser.logs.types.LogProcessor
 import dev.kord.core.event.Event
 import io.github.z4kn4fein.semver.Version
-import org.quiltmc.community.cozy.modules.logs.api.ModrinthClient
 
 public class QuiltLibrariesVersionProcessor : LogProcessor() {
 	override val identifier: String = "quilt-libraries-version"

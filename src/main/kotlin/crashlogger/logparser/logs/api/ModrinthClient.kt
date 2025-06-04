@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package org.quiltmc.community.cozy.modules.logs.api
+package crashlogger.logparser.logs.api
 
 import crashlogger.logparser.logs.api.models.modrinth.ModrinthVersion
 import io.ktor.client.*

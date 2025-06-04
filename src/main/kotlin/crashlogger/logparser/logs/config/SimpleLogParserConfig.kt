@@ -6,8 +6,12 @@
 
 package crashlogger.logparser.logs.config
 
+import crashlogger.logparser.logs.parsers.LoaderParser
 import crashlogger.logparser.logs.parsers.MinecraftVersionParser
 import crashlogger.logparser.logs.parsers.fabric.FabricModsParser
+import crashlogger.logparser.logs.parsers.launchers.ATLauncherParser
+import crashlogger.logparser.logs.parsers.launchers.TechnicParser
+import crashlogger.logparser.logs.parsers.quilt.QuiltModsParser
 import crashlogger.logparser.logs.processors.*
 import crashlogger.logparser.logs.processors.quilt.*
 import crashlogger.logparser.logs.retrievers.AttachmentLogRetriever
@@ -18,11 +22,7 @@ import crashlogger.logparser.logs.types.LogRetriever
 import dev.kordex.core.checks.types.Check
 import org.quiltmc.community.cozy.modules.logs.parsers.EnvironmentParser
 import org.quiltmc.community.cozy.modules.logs.parsers.LauncherParser
-import org.quiltmc.community.cozy.modules.logs.parsers.LoaderParser
-import org.quiltmc.community.cozy.modules.logs.parsers.launchers.ATLauncherParser
 import org.quiltmc.community.cozy.modules.logs.parsers.launchers.MMCLikeParser
-import org.quiltmc.community.cozy.modules.logs.parsers.launchers.TechnicParser
-import org.quiltmc.community.cozy.modules.logs.parsers.quilt.QuiltModsParser
 
 
 public class SimpleLogParserConfig(private val builder: Builder) : LogParserConfig {

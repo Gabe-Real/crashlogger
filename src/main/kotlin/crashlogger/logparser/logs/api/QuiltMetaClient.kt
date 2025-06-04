@@ -6,6 +6,7 @@
 
 package crashlogger.logparser.logs.api
 
+import crashlogger.logparser.logs.api.models.quiltmeta.LoaderElement
 import io.github.z4kn4fein.semver.Version
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -17,7 +18,6 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
-import org.quiltmc.community.cozy.modules.logs.api.models.quiltmeta.LoaderElement
 import kotlin.time.Duration.Companion.minutes
 
 private const val API_VERSION = 3

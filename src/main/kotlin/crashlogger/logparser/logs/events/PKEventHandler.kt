@@ -7,7 +7,6 @@
 package crashlogger.logparser.logs.events
 
 import crashlogger.logparser.logs.LogParserExtension
-import dev.kord.core.entity.Message
 import dev.kordex.core.extensions.event
 import dev.kordex.modules.pluralkit.events.PKMessageCreateEvent
 

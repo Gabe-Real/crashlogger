@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package org.quiltmc.community.cozy.modules.logs.api.models.quiltmeta
+package crashlogger.logparser.logs.api.models.quiltmeta
 
 
 import io.github.z4kn4fein.semver.Version
