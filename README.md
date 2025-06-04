@@ -1,67 +1,173 @@
-# KordEx Bot Template
+# Crashlogger discord
 
-This repository contains a basic KordEx example bot for you to use as a crashlogger for your own KordEx bots. This
-includes the following:
+This repository contains the code for the Cozy crashes bot. See the license for more information on how to use.
 
-- A basic extension that allows you to slap other people, using both chat commands and slash commands.
-- A basic bot configuration that enables slash commands and shows you how to conditionally provide a different
-  chat command prefix for different guilds.
-- A Gradle Kotlin build script that uses the KordEx Gradle plugin and Detekt for linting (with a
-  fairly strict configuration) – this uses Gradle 7's new version catalogue feature, for easy configuration of
-  dependencies.
-- GitHub CI scripts that build the bot and publish its artefacts.
-- A reasonable `.gitignore` file, including one in the `.idea` folder that ignores files that you shouldn't commit –
-  if you're using IDEA yourself, you should install the Ignore plugin to handle changes to this for you.
-- A Groovy-based Logback config, so you have reasonable logging out of the box.
-- A default set of translations in `src/main/resources/translations`, and automatic generation of `Key` objects.
-- Automatic generation of a Dockerfile via a `createDockerFile` task, also run at build time.
-- The buildscript packages the bot using the Gradle `distribution` plugin, with the final distribution placed in
-  `build/distributions` in both `.tar` and `.zip` format.
+## Features
 
-**Note:** This crashlogger includes a `.editorconfig` file that defaults to using tabs for indentation in almost all file
-types. This is because tabs are more accessible for the blind, or those with impaired vision. We won't accept
-feedback or PRs targeting this approach, though you can always change it in your projects.
+* A minecraft crashlogging parsing system
+* Minecraft snapshot alerting and tracking tools
+* Miscellaneous utilities
 
-## Potential Changes
+# Development Requirements
 
-- The `.yml` files in `.github/` are used to configure GitHub apps. If you're not using them, you can remove them.
-- The provided `LICENSE` file contains The Unlicense, which makes this repository public domain. You will probably want
-  to change this—we suggest looking at [Choose a License](https://choosealicense.com/) if you're not sure where to
-  start.
-- In the `build.gradle.kts`:
-  - Set the `group` and `version` properties as appropriate.
-  - In the `kordEx` and `tasks.jar` block, update the main class path/name as appropriate.
-  - In the `kordEx` block, update the KordEx version if needed.
-- In the `settings.gradle.kts`, update the name of the root project as appropriate.
-- The bundled Detekt config is pretty strict—you can check over `detekt.yml` if you want to change it, but you need to
-  follow the to-dos in that file regardless.
-- The Logback configuration is in `src/main/resources/logback.groovy`. If the logging setup doesn't suit, you can change
-  it there.
-- The default translation bundle in `src/main/resources/translations` will likely need to be renamed for your project.
-- In `src/main/dist`, read the `README.md` file and consider adding any relevant plugins there.
+If you're here to help out, here's what you'll need. Firstly:
 
-## Bundled Bot
+* A JDK, **Java 15 or later** - if you need one, try [Adoptium](https://adoptium.net/)
+* An IDE suitable for Kotlin **and Gradle** work
+	* [IntelliJ IDEA](https://www.jetbrains.com/idea/): Community Edition should be plenty
+	* [Eclipse](https://www.eclipse.org/ide/): Install the latest version
+	  of [the Kotlin plugin](https://marketplace.eclipse.org/content/kotlin-plugin-eclipse), then go to the `Window`
+	  menu, `Preferences`, `Kotlin`, `Compiler` and make sure you set up the `JDK_HOME` and JVM target version
+* A Discord bot application, created at [the developer dashboard](https://discord.com/developers/applications). Make
+  sure you turn on all the privileged intents - different modes require different intents!
 
-- `App.kt` includes a basic bot, which uses environment variables (or variables in a `.env` file) for the testing guild
-  ID (`TEST_SERVER`) and the bot's token (`TOKEN`). You can specify these either directly as environment variables, or
-  as `KEY=value` pairs in a file named `.env`. Some example code is also included that shows one potential way of
-  providing different command prefixes for different servers.
-- `TestExtension.kt` includes an example extension that creates a `slap` command - this command works as both a
-  message command and slash command, and allows you to slap other users with whatever you wish, defaulting to a
-  `large, smelly trout`.
+# Setting Up
 
-To test the bot, we recommend using a `.env` file that looks like the following:
+As a first step, fork this repository, clone your fork, and open it in your IDE, importing the Gradle project. Create
+a file named `.env` in the project root (next to files like the `build.gradle.kts`), and fill it out with your bot's
+settings. This file should contain `KEY=value` pairs, without a space around the `=` and without added quotes:
 
 ```dotenv
-TOKEN=abc...
-TEST_SERVER=123...
+TOKEN=AAA....
+TEST_SERVER=1234....
+
+ENVIRONMENT=dev
+# You get the idea.
 ```
 
-Create this file, fill it out, and run the `run` gradle task for testing in development.
+
+
+# Conventions and Linting
+
+This repository makes use of [detekt](https://detekt.github.io/detekt/), a static analysis tool for Kotlin code. Our
+formatting rules are contained within [detekt.yml](detekt.yml), but detekt can't verify everything.
+
+To be specific, proper spacing is important for code readability. If your code is too dense, then we're going to ask
+you to fix this problem - so try to bear it in mind. Let's see some examples...
+
+### Bad
+
+```kotlin
+override suspend fun unload() {
+	super.unload()
+	if (::task.isInitialized) {
+		task.cancel()
+	}
+}
+```
+
+```kotlin
+action {
+	val channel = channel.asChannel() as ThreadChannel
+	val member = user.asMember(guild!!.id)
+	val roles = member.roles.toList().map { it.id }
+	if (MODERATOR_ROLES.any { it in roles }) {
+		targetMessages.forEach { it.pin("Pinned by ${member.tag}") }
+		edit { content = "Messages pinned." }
+		return@action
+	}
+	if (channel.ownerId != user.id && threads.isOwner(channel, user) != true) {
+		respond { content = "**Error:** This is not your thread." }
+		return@action
+	}
+	targetMessages.forEach { it.pin("Pinned by ${member.tag}") }
+	edit { content = "Messages pinned." }
+}
+```
+
+```kotlin
+action {
+	if (this.member?.asMemberOrNull()?.mayManageRole(arguments.role) == true) {
+		arguments.targetUser.removeRole(
+			arguments.role.id,
+			"${this.user.asUserOrNull()?.tag ?: this.user.id} used /team remove"
+		)
+		respond {
+			content = "Successfully removed ${arguments.targetUser.mention} from " +
+					"${arguments.role.mention}."
+			allowedMentions { }
+		}
+	} else {
+		respond {
+			content = "Your team needs to be above ${arguments.role.mention} in order to remove " +
+					"anyone from it."
+			allowedMentions { }
+		}
+	}
+}
+```
+
+### Good
+
+```kotlin
+override suspend fun unload() {
+	super.unload()
+
+	if (::task.isInitialized) {
+		task.cancel()
+	}
+}
+```
+
+```kotlin
+action {
+	val channel = channel.asChannel() as ThreadChannel
+	val member = user.asMember(guild!!.id)
+	val roles = member.roles.toList().map { it.id }
+
+	if (MODERATOR_ROLES.any { it in roles }) {
+		targetMessages.forEach { it.pin("Pinned by ${member.tag}") }
+		edit { content = "Messages pinned." }
+
+		return@action
+	}
+
+	if (channel.ownerId != user.id && threads.isOwner(channel, user) != true) {
+		respond { content = "**Error:** This is not your thread." }
+
+		return@action
+	}
+
+	targetMessages.forEach { it.pin("Pinned by ${member.tag}") }
+
+	edit { content = "Messages pinned." }
+}
+```
+
+```kotlin
+action {
+	if (this.member?.asMemberOrNull()?.mayManageRole(arguments.role) == true) {
+		arguments.targetUser.removeRole(
+			arguments.role.id,
+
+			"${this.user.asUserOrNull()?.tag ?: this.user.id} used /team remove"
+		)
+
+		respond {
+			content = "Successfully removed ${arguments.targetUser.mention} from " +
+					"${arguments.role.mention}."
+
+			allowedMentions { }
+		}
+	} else {
+		respond {
+			content = "Your team needs to be above ${arguments.role.mention} in order to remove " +
+					"anyone from it."
+
+			allowedMentions { }
+		}
+	}
+}
+```
+
+Hopefully these examples help to make things clearer. Group similar types of statements together (variable assignments),
+separating them from other types (like function calls). If a statement takes up multiple lines, then it probably needs
+to be separated from any other statements. In general, use your best judgement - extra space is better than not enough
+space, and detekt will tell you if you go overboard.
 
 ## Further Reading
 
-To learn more about KordEx and how to work with it, [please read the documentation](https://docs.kordex.dev).
+This repository makes use of the Kordex plugin. To learn more about KordEx and how to work with it, [please read the documentation](https://docs.kordex.dev).
 
 For more information on the KordEx Gradle plugin and what you can do with it,
 [please read this README](https://github.com/Kord-Extensions/gradle-plugins#kordex-plugin).
