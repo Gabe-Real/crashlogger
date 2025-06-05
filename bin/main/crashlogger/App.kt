@@ -3,6 +3,7 @@
  */
 package crashlogger
 
+import com.unascribed.flexver.FlexVerComparator
 import crashlogger.logparser.logs.config.DefaultLogParserConfig
 import dev.kord.common.entity.Snowflake
 import dev.kordex.core.ExtensibleBot
@@ -14,11 +15,17 @@ import crashlogger.logparser.logs.config.LogParserConfig
 import crashlogger.logparser.logs.extLogParser
 import crashlogger.logparser.logs.processors.PiracyProcessor
 import crashlogger.logparser.logs.processors.ProblematicLauncherProcessor
+import crashlogger.logparser.logs.processors.quilt.NonQuiltLoaderProcessor
+import crashlogger.logparser.logs.processors.quilt.RuleBreakingModProcessor
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 import dev.kordex.core.checks.guildFor
 import dev.kordex.core.utils.loadModule
+import org.nibor.autolink.LinkExtractor
+import org.nibor.autolink.LinkType
 import java.io.File
+import java.net.URI
+import java.net.URL
 
 val TEST_SERVER_ID = Snowflake(
 	env("TEST_SERVER").toLong()  // Get the test server ID from the env vars or a .env file
@@ -26,6 +33,7 @@ val TEST_SERVER_ID = Snowflake(
 
 private val TOKEN = env("TOKEN")
 // Get the bot token from the env vars or a .env file
+
 
 suspend fun main() {
 	val bot = ExtensibleBot(TOKEN) {
@@ -52,10 +60,14 @@ suspend fun main() {
 
 			extPluralKit()
 
-			extLogParser {
+			 extLogParser{
 				// Bundled non-default processors
 				processor(PiracyProcessor())
 				processor(ProblematicLauncherProcessor())
+
+				// Quilt-specific processors
+				processor(NonQuiltLoaderProcessor())
+				processor(RuleBreakingModProcessor())
 
 				globalPredicate { event ->
 					val guild = guildFor(event)

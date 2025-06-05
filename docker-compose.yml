@@ -3,10 +3,8 @@ services:
     image: ghcr.io/gabe-real/crashlogger:main
     restart: always
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - CLIENT_ID=${CLIENT_ID}
-      - BOT_OWNER_ID=${BOT_OWNER_ID}
-      - JAVA_OPTS=${JAVA_OPTS:--Xmx512m}
+      - TOKEN=${TOKEN}
+      - TEST_SERVER=${TEST_SERVER}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "com.centurylinklabs.watchtower.scope=crashlogger"

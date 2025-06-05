@@ -15,6 +15,9 @@ import io.ktor.client.statement.*
 import io.ktor.utils.io.*
 import kotlinx.io.readByteArray
 import java.net.URL
+import io.github.oshai.kotlinlogging.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 private val DOMAINS: Array<String> = arrayOf(
 	"cdn.discord.com",
@@ -38,6 +41,8 @@ public class AttachmentLogRetriever : LogRetriever() {
 			url.path.endsWithExtensions(*EXTENSIONS) ||
 				'.' !in url.path.substringAfterLast('/')
 			)
+
+
 
 	override suspend fun process(url: URL): Set<String> =
 		setOf(client.get(url).bodyAsChannel().readRemaining().readByteArray().decodeToString())
