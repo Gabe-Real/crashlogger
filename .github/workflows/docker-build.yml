@@ -59,7 +59,7 @@ jobs:
             type=raw,value=${{ github.ref_name }},enable=true
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
