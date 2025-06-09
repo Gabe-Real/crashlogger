@@ -17,7 +17,7 @@ kotlintest = "3.4.2"
 ktor = { strictly = "3.0.3" } #"2.3.12"
 kordex-gradle = "1.7.1"
 kordex = "2.3.2-SNAPSHOT"
-semver = "2.0.0"
+semver = "3.0.0"
 
 
 [libraries]
